@@ -38,7 +38,7 @@ export default function CustomOrderPage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-    
+
       <div className="container px-4 py-8 md:px-6 md:py-12">
         <div className="flex flex-col items-start gap-4 md:flex-row md:justify-between md:gap-8">
           <div>
@@ -60,18 +60,23 @@ export default function CustomOrderPage() {
                   <Card
                     key={type.id}
                     className={`cursor-pointer transition-all hover:border-primary ${paperType === type.id ? "border-2 border-primary" : ""}`}
-                    onClick={() => setPaperType(type.id)}
+                    onClick={() => {
+                   
+                      setPaperType(type.id);
+                    }}
                   >
                     <CardHeader className="p-4">
                       <CardTitle className="text-lg flex items-center justify-between">
                         {type.name}
-                        {paperType === type.id && <Check className="h-5 w-5 text-primary" />}
+                        {paperType === type.id && <Check className="h-5 w-5 text-primary pointer-events-none" />}
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="p-4 pt-0">
-                      <CardDescription>{type.description}</CardDescription>
+                      <CardDescription className="pointer-events-none">{type.description}</CardDescription>
                     </CardContent>
                   </Card>
+
+
                 ))}
               </div>
             </div>

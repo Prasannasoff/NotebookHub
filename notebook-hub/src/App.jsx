@@ -4,6 +4,8 @@ import { Navbar } from './Components/Navbar';
 import Home from './Pages/Home';
 import CustomOrderPage from './Pages/CustomOrderPage';
 import TrackingPage from './Pages/TrackingPage';
+import ShopPage from './Pages/ShopPage';
+import ChatPage from './Pages/ChatPage';
 function App() {
 
   return (
@@ -13,6 +15,10 @@ function App() {
         <Route path='/' element={<Home />}></Route>
         <Route path='/custom' element={<CustomOrderPage />}></Route>
         <Route path='/tracking' element={<TrackingPage />}></Route>
+        <Route path='/shop' element={<ShopPage />}></Route>
+        <Route path='/chat' element={<ChatPage />}></Route>
+
+
 
 
       </Routes>
