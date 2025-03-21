@@ -25,7 +25,7 @@ function RegisterPage() {
         formData.append('image', image);
 
         try {
-            const response = await axios.post("http://localhost:9092/user/saveUser", formData, {
+            const response = await axios.post("https://notebook-hub-latest.onrender.com/user/saveUser", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
