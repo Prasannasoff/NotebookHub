@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { Book, Search, ShoppingBag, User } from "lucide-react";
-
+import { useNavigate } from "react-router-dom";
 const navItems = [
   { name: "Home", href: "/" },
   { name: "Shop Notebooks", href: "/shop" },
@@ -10,6 +10,7 @@ const navItems = [
 ];
 
 export function Navbar() {
+  const navigate = useNavigate();
   const location = useLocation();
 
   return (
@@ -25,9 +26,8 @@ export function Navbar() {
               <Link
                 key={item.href}
                 to={item.href}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  location.pathname === item.href ? "text-primary" : "text-muted-foreground"
-                }`}
+                className={`text-sm font-medium transition-colors hover:text-primary ${location.pathname === item.href ? "text-primary" : "text-muted-foreground"
+                  }`}
               >
                 {item.name}
               </Link>
@@ -50,8 +50,8 @@ export function Navbar() {
             <User className="h-5 w-5" />
             <span className="sr-only">Account</span>
           </button>
-          <button className="hidden md:flex h-10 px-4 py-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md">
-            Sign In
+          <button className="hidden md:flex h-10 px-4 py-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md" onClick={() => navigate('/register')}>
+            Register
           </button>
           <button className="h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md">
             Admin
