@@ -6,6 +6,7 @@ import CustomOrderPage from './Pages/CustomOrderPage';
 import TrackingPage from './Pages/TrackingPage';
 import ShopPage from './Pages/ShopPage';
 import ChatPage from './Pages/ChatPage';
+import RegisterPage from './Pages/RegisterPage';
 function App() {
 
   return (
@@ -16,11 +17,9 @@ function App() {
         <Route path='/custom' element={<CustomOrderPage />}></Route>
         <Route path='/tracking' element={<TrackingPage />}></Route>
         <Route path='/shop' element={<ShopPage />}></Route>
+        <Route path='/register' element={<RegisterPage />}></Route>
+
         <Route path='/chat' element={<ChatPage />}></Route>
-
-
-
-
       </Routes>
     </Router>
 

@@ -14,7 +14,7 @@ const Home = () => {
   return (
     <div className="flex min-h-screen flex-col">
       <main className="flex-1">
-        {/* Hero Section */}
+       
         <section className="py-12 md:py-24 lg:py-32 xl:py-48 bg-black text-white text-center">
           <h1 className="text-3xl font-bold sm:text-5xl xl:text-6xl">
             Premium Wholesale Notebooks for Your Business
@@ -28,7 +28,6 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Features Section */}
         <section className="w-full py-12 md:py-24 lg:py-32 bg-white text-center">
           <h2 className="text-3xl font-bold sm:text-5xl">Why Choose Us</h2>
           <p className="max-w-2xl mx-auto text-gray-600 mt-4">
@@ -48,7 +47,6 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Featured Products */}
         <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-50 text-center">
           <h2 className="text-3xl font-bold sm:text-5xl">Featured Products</h2>
           <p className="max-w-2xl mx-auto text-gray-600 mt-4">Explore our most popular notebook collections.</p>
@@ -65,7 +63,6 @@ const Home = () => {
         </section>
       </main>
 
-      {/* Footer */}
       <footer className="border-t py-6 text-center">
         <p className="text-sm text-gray-600">© 2025 NotebookWholesale. All rights reserved.</p>
       </footer>

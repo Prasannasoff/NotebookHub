@@ -52,7 +52,7 @@ export default function CustomOrderPage() {
 
         <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-[1fr_300px]">
           <div className="space-y-8">
-            {/* Paper Type */}
+           
             <div className="space-y-4">
               <h2 className="text-xl font-semibold">Paper Type</h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -81,7 +81,7 @@ export default function CustomOrderPage() {
               </div>
             </div>
 
-            {/* Size */}
+           
             <div className="space-y-4">
               <h2 className="text-xl font-semibold">Size</h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -105,7 +105,7 @@ export default function CustomOrderPage() {
               </div>
             </div>
 
-            {/* Ruling Style */}
+          
             <div className="space-y-4">
               <h2 className="text-xl font-semibold">Ruling Style</h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
@@ -129,7 +129,6 @@ export default function CustomOrderPage() {
               </div>
             </div>
 
-            {/* Cover Design */}
             <div className="space-y-4">
               <h2 className="text-xl font-semibold">Cover Design</h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
@@ -153,7 +152,6 @@ export default function CustomOrderPage() {
               </div>
             </div>
 
-            {/* Quantity */}
             <div className="space-y-4">
               <h2 className="text-xl font-semibold">Quantity</h2>
               <div className="flex items-center gap-4">
@@ -172,7 +170,6 @@ export default function CustomOrderPage() {
               <p className="text-sm text-muted-foreground">Minimum order quantity: 50 units</p>
             </div>
 
-            {/* Additional Options */}
             <div className="space-y-4">
               <h2 className="text-xl font-semibold">Additional Options</h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -210,7 +207,7 @@ export default function CustomOrderPage() {
             </Button>
           </div>
 
-          {/* Preview/Summary */}
+         
           <div className={`space-y-6 ${showPreview ? "block" : "hidden md:block"}`}>
             <Card className="sticky top-4">
               <CardHeader className="p-4">
