@@ -7,6 +7,7 @@ import TrackingPage from './Pages/TrackingPage';
 import ShopPage from './Pages/ShopPage';
 import ChatPage from './Pages/ChatPage';
 import RegisterPage from './Pages/RegisterPage';
+import LoginPage from './Pages/LoginPage';
 function App() {
 
   return (
@@ -18,6 +19,10 @@ function App() {
         <Route path='/tracking' element={<TrackingPage />}></Route>
         <Route path='/shop' element={<ShopPage />}></Route>
         <Route path='/register' element={<RegisterPage />}></Route>
+        <Route path='/register' element={<RegisterPage />}></Route>
+        <Route path='/login' element={<LoginPage />}></Route>
+
+
 
         <Route path='/chat' element={<ChatPage />}></Route>
       </Routes>

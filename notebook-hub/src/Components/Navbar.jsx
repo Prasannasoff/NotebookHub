@@ -50,8 +50,8 @@ export function Navbar() {
             <User className="h-5 w-5" />
             <span className="sr-only">Account</span>
           </button>
-          <button className="hidden md:flex h-10 px-4 py-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md" onClick={() => navigate('/register')}>
-            Register
+          <button className="hidden md:flex h-10 px-4 py-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md" onClick={() => navigate('/login')}>
+            Login
           </button>
           <button className="h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md">
             Admin

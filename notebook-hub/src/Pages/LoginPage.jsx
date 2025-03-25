@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode'; 
 import { UserCircle } from "lucide-react";
 
 function LoginPage() {
@@ -11,14 +10,11 @@ function LoginPage() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(`http://localhost:8081/api/login`, { email, password });
+      const response = await axios.post(`http://localhost:9092/user/login`, { email, password });
       const token = response.data.token;
       localStorage.setItem("token", token);
       if (token) {
-        const decodedToken = jwtDecode(token);
-        const userEmail = decodedToken.sub;
-        console.log(userEmail);
-        navigate('/publicChat', { state: { email: userEmail } });
+        navigate('/')
       }
     } catch (error) {
       console.error('Login failed:', error);
