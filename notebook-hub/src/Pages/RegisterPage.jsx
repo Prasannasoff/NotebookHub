@@ -25,7 +25,7 @@ function RegisterPage() {
         formData.append('image', image);
 
         try {
-            const response = await axios.post("http://localhost:9092/user/saveUser", formData, {
+            const response = await axios.post("http://localhost:9092/user/save-user", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

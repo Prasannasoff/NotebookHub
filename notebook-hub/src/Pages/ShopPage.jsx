@@ -1,7 +1,8 @@
 import { Filter, SlidersHorizontal } from "lucide-react"
 import { Button } from "../Components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../Components/ui/card"
-
+import axios from "axios"
+import { useEffect } from "react"
 const categories = ["All Products", "Hardcover", "Softcover", "Spiral Bound", "Leather Bound", "Eco-Friendly"]
 
 const products = [
@@ -72,6 +73,13 @@ const products = [
 ]
 
 export default function ShopPage() {
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get("http://localhost:9092/user/get-all-notebooks");
+      console.log(response.data);
+    };
+    fetchData();
+  }, []);
   return (
     <div className="flex min-h-screen flex-col">
 

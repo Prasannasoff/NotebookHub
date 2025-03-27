@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { UserCircle } from "lucide-react";
-
+import {jwtDecode} from "jwt-decode";
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,7 +14,12 @@ function LoginPage() {
       const token = response.data.token;
       localStorage.setItem("token", token);
       if (token) {
-        navigate('/')
+        const decodedToken = jwtDecode(token); // Decode token
+        if (decodedToken.role === "ADMIN") {
+          navigate('/admin'); // Navigate to admin panel
+        } else {
+          navigate('/');
+        }
       }
     } catch (error) {
       console.error('Login failed:', error);
@@ -48,8 +53,8 @@ function LoginPage() {
             className="w-full p-3 rounded-lg bg-blue-900 text-white text-lg outline-none placeholder-gray-300"
           />
 
-          <button 
-            onClick={handleLogin} 
+          <button
+            onClick={handleLogin}
             className="w-3/5 p-3 rounded-lg bg-blue-900 text-white text-lg font-semibold transition duration-200 hover:bg-blue-800">
             LOGIN
           </button>
