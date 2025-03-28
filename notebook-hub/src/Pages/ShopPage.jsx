@@ -2,9 +2,11 @@ import { Filter, SlidersHorizontal } from "lucide-react"
 import { Button } from "../Components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../Components/ui/card"
 import axios from "axios"
-import { useEffect } from "react"
+import { Heart, Share2, ShoppingCart } from "lucide-react"
+import { useEffect, useState } from "react"
+import image from '../assets/notebook.png';
 const categories = ["All Products", "Hardcover", "Softcover", "Spiral Bound", "Leather Bound", "Eco-Friendly"]
-
+import { Badge } from '../Components/ui/Badge'
 const products = [
   {
     id: 1,
@@ -73,10 +75,12 @@ const products = [
 ]
 
 export default function ShopPage() {
+  const [noteBookDetails, setNoteDookDetails] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get("http://localhost:9092/user/get-all-notebooks");
       console.log(response.data);
+      setNoteDookDetails(response.data);
     };
     fetchData();
   }, []);
@@ -145,27 +149,69 @@ export default function ShopPage() {
           {/* Product Grid */}
           <div className="space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {products.map((product) => (
-                <Card key={product.id} className="overflow-hidden transition-all hover:shadow-lg">
-                  <div className="aspect-square relative">
-                    <img
-                      src={`/placeholder.svg?height=300&width=300&text=${product.name.replace(/\s+/g, "+")}`}
-                      alt={product.name}
-                      fill
-                      className="object-cover"
-                    />
+              {noteBookDetails.map((product) => (
+                <Card key={product.id} className="relative overflow-hidden transition-all hover:shadow-lg max-w-[400px]">
+                  <div className="absolute top-3 right-3">
+                    <Badge className="bg-amber-300 hover:bg-amber-400 text-black font-medium px-3 py-1">New</Badge>
                   </div>
-                  <CardHeader className="p-4">
-                    <CardTitle className="text-lg">{product.name}</CardTitle>
-                    <CardDescription>{product.description}</CardDescription>
+                  <div className="flex h-[270px] items-center justify-center bg-gray-200 ">
+                    <img
+                      src={image}
+                      alt={product.name}
+                      className="h-full object-cover"
+                    />
+
+                  </div>
+
+                  <CardHeader className="pt-5 pb-2 px-5">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <CardTitle className="text-xl font-bold text-gray-800">Premium Notebook</CardTitle>
+                        <CardDescription className="text-gray-600 mt-1">High-quality premium notebook for everyday use</CardDescription>
+                      </div>
+                    </div>
                   </CardHeader>
                   <CardContent className="p-4 pt-0">
-                    <div className="text-lg font-bold">${product.price.toFixed(2)}</div>
-                    <div className="text-sm text-muted-foreground">Min. Order: {product.minOrder} units</div>
+                    <div className="text-2xl font-bold text-gray-900">₹{product.price}</div>
+                    <div className="flex justify-between">
+                      <span>Number of Pages:</span>
+                      <span className="font-medium">{product.pages} pages</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Size:</span>
+                      <span className="font-medium">{product.size}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Rule:</span>
+                      <span className="font-medium">{product.ruling}</span>
+                    </div>
+
                   </CardContent>
-                  <CardFooter className="p-4">
-                    <Button className="w-full">Add to Cart</Button>
-                  </CardFooter>
+                  <div className="p-4 flex flex-col space-y-3 items-center justify-center">
+                    <Button className="min-w-60 bg-amber-300">
+                      <div className="flex items-center justify-center gap-2">
+                        <ShoppingCart className="h-5 w-5 text-gray-700" />Add to Cart</div>
+                    </Button>
+                    {/* <div className="flex justify-between w-full">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="rounded-lg border-gray-200 hover:bg-amber-50 hover:border-amber-200 transition-all duration-300"
+                      >
+                        <ShoppingCart className="h-5 w-5 text-gray-700" />
+                        <span className="sr-only">Add to cart</span>
+                      </Button>
+
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="rounded-lg border-gray-200 hover:bg-rose-50 hover:border-rose-200 transition-all duration-300"
+                      >
+                        <Heart className="h-5 w-5 text-gray-700" />
+                        <span className="sr-only">Add to wishlist</span>
+                      </Button>
+                    </div> */}
+                  </div>
                 </Card>
               ))}
             </div>
