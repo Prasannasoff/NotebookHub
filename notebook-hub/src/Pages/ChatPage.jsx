@@ -1,84 +1,74 @@
-import { useState, useRef, useEffect } from "react"
-import { PaperclipIcon, Send } from "lucide-react"
-import { Button } from "../Components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../Components/ui/card"
-import { Input } from "../Components/ui/input"
-const initialMessages = [
-  {
-    id: 1,
-    sender: "system",
-    content: "Welcome to our live chat! A customer service representative will be with you shortly.",
-    timestamp: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
-  },
-  {
-    id: 2,
-    sender: "rep",
-    content: "Hello! I'm Sarah from NotebookWholesale. How can I assist you today?",
-    timestamp: new Date(Date.now() - 1000 * 60 * 4).toISOString(),
-  },
-  {
-    id: 3,
-    sender: "user",
-    content:
-      "Hi Sarah, I'm interested in ordering custom notebooks for my company. Can you tell me about your bulk pricing?",
-    timestamp: new Date(Date.now() - 1000 * 60 * 3).toISOString(),
-  },
-  {
-    id: 4,
-    sender: "rep",
-    content:
-      "Of course! Our bulk pricing starts at 50 units. For hardcover notebooks, prices start at $15 per unit for 50-100 units, and drop to $12 per unit for orders over 100. Would you like me to send you our full pricing sheet?",
-    timestamp: new Date(Date.now() - 1000 * 60 * 2).toISOString(),
-  },
-]
+import { useEffect, useRef, useState } from "react";
+import { PaperclipIcon, Send } from "lucide-react";
+import { Button } from "../Components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../Components/ui/card";
+import { Input } from "../Components/ui/input";
+import SockJS from "sockjs-client";
+import * as StompJs from "@stomp/stompjs";
 
-export default function ChatPage() {
-  const [messages, setMessages] = useState(initialMessages)
-  const [newMessage, setNewMessage] = useState("")
-  const messagesEndRef = useRef(null)
+const socketUrl = "http://localhost:9092/chat-websocket";
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }
+let stompClient = null;
+
+export default function LiveChat() {
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    scrollToBottom()
-  }, [messages])
+    const token = localStorage.getItem("token");
+    const socket = new SockJS(socketUrl);
 
-  const handleSendMessage = () => {
-    if (!newMessage.trim()) return
+    stompClient = new StompJs.Client({
+      webSocketFactory: () => socket,
+      onConnect: () => {
+        console.log("STOMP connection established");
+        stompClient.subscribe("/topic/messages", (message) => {
+          setMessages((prev) => [...prev, JSON.parse(message.body)]);
+        });
+      },
+      onWebSocketError: (error) => {
+        console.log("WebSocket error", error);
+      },
+    });
 
-    const userMessage = {
-      id: messages.length + 1,
-      sender: "user",
-      content: newMessage,
-      timestamp: new Date().toISOString(),
+    stompClient.activate();
+
+    return () => {
+      if (stompClient) stompClient.deactivate();
+    };
+  }, []);
+
+  const sendMessage = () => {
+    if (stompClient.connected && input.trim()) {
+      console.log("Sending message:", input);
+      stompClient.publish({
+        destination: "/app/send",
+        body: JSON.stringify({
+          sender: "user",
+          content: input,
+        }),
+      });
+      setInput("");
+    } else {
+      console.log("STOMP client is not connected yet.");
     }
-
-    setMessages([...messages, userMessage])
-    setNewMessage("")
-
-    // Simulate rep response after a delay
-    setTimeout(() => {
-      const repMessage = {
-        id: messages.length + 2,
-        sender: "rep",
-        content:
-          "I can offer you a special discount of 15% if you order more than 200 units. Would that work for your needs?",
-        timestamp: new Date().toISOString(),
-      }
-      setMessages((prev) => [...prev, repMessage])
-    }, 2000)
-  }
+  };
 
   const formatTime = (timestamp) => {
-    const date = new Date(timestamp)
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-  }
+    if (!timestamp) return "";
+    const date = new Date(timestamp);
+    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  };
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   return (
     <div className="flex min-h-screen flex-col">
-   
       <div className="container px-4 py-8 md:px-6 md:py-12 flex flex-col flex-1">
         <div className="flex flex-col md:flex-row gap-8 flex-1">
           {/* Chat Window */}
@@ -105,9 +95,9 @@ export default function ChatPage() {
                 </div>
               </CardHeader>
               <CardContent className="p-4 flex-1 overflow-y-auto flex flex-col gap-4">
-                {messages.map((message) => (
+                {messages.map((message, index) => (
                   <div
-                    key={message.id}
+                    key={index}
                     className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}
                   >
                     <div
@@ -115,8 +105,8 @@ export default function ChatPage() {
                         message.sender === "user"
                           ? "bg-primary text-primary-foreground"
                           : message.sender === "rep"
-                            ? "bg-secondary text-secondary-foreground"
-                            : "bg-muted text-muted-foreground"
+                          ? "bg-secondary text-secondary-foreground"
+                          : "bg-muted text-muted-foreground"
                       }`}
                     >
                       <p>{message.content}</p>
@@ -133,15 +123,15 @@ export default function ChatPage() {
                   </Button>
                   <Input
                     placeholder="Type your message..."
-                    value={newMessage}
-                    onChange={(e) => setNewMessage(e.target.value)}
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
-                        handleSendMessage()
+                        sendMessage();
                       }
                     }}
                   />
-                  <Button onClick={handleSendMessage}>
+                  <Button onClick={sendMessage}>
                     <Send className="h-4 w-4 mr-2" />
                     Send
                   </Button>
@@ -152,34 +142,6 @@ export default function ChatPage() {
 
           {/* Sidebar */}
           <div className="w-full md:w-80 space-y-6">
-            <Card>
-              <CardHeader className="p-4">
-                <CardTitle className="text-lg">Frequently Asked Questions</CardTitle>
-              </CardHeader>
-              <CardContent className="p-4 pt-0">
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <div className="font-medium">What is the minimum order quantity?</div>
-                    <div className="text-sm text-muted-foreground">
-                      Our minimum order quantity is 50 units per product.
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="font-medium">How long does shipping take?</div>
-                    <div className="text-sm text-muted-foreground">
-                      Standard shipping takes 5-7 business days. Express shipping is available.
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="font-medium">Do you offer samples?</div>
-                    <div className="text-sm text-muted-foreground">
-                      Yes, we offer sample packs for $25 which includes 5 different notebook styles.
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
             <Card>
               <CardHeader className="p-4">
                 <CardTitle className="text-lg">Contact Information</CardTitle>
@@ -206,6 +168,5 @@ export default function ChatPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-

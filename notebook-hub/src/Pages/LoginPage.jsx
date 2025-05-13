@@ -1,28 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 import { UserCircle } from "lucide-react";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
+import { useUser } from "../Context/UserContext.jsx";
+
 function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { setUserDetails } = useUser();
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(`http://localhost:9092/user/login`, { email, password });
+      const response = await axios.post(`http://localhost:9092/auth/login`, {
+        email,
+        password,
+      });
       const token = response.data.token;
+      const user = response.data.userDetails;
+      console.log(user.user_id);
+      setUserDetails(user);
       localStorage.setItem("token", token);
       if (token) {
-        const decodedToken = jwtDecode(token); // Decode token
+        const decodedToken = jwtDecode(token);
         if (decodedToken.role === "ADMIN") {
-          navigate('/admin'); // Navigate to admin panel
+          navigate("/admin-dashboard");
         } else {
-          navigate('/');
+          navigate("/");
         }
       }
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error("Login failed:", error);
     }
   };
 
@@ -33,7 +42,9 @@ function LoginPage() {
           <div className="w-20 h-20 rounded-full bg-blue-900 flex items-center justify-center">
             <UserCircle className="w-12 h-12 text-white" />
           </div>
-          <div className="text-white text-2xl font-semibold font-poppins mt-3">Login</div>
+          <div className="text-black text-2xl font-semibold font-poppins mt-3">
+            Login
+          </div>
         </div>
 
         <div className="w-full flex flex-col gap-4 items-center">
@@ -55,7 +66,8 @@ function LoginPage() {
 
           <button
             onClick={handleLogin}
-            className="w-3/5 p-3 rounded-lg bg-blue-900 text-white text-lg font-semibold transition duration-200 hover:bg-blue-800">
+            className="w-3/5 p-3 rounded-lg bg-blue-900 text-white text-lg font-semibold transition duration-200 hover:bg-blue-800"
+          >
             LOGIN
           </button>
         </div>

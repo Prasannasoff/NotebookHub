@@ -25,12 +25,12 @@ function RegisterPage() {
         formData.append('image', image);
 
         try {
-            const response = await axios.post("http://localhost:9092/user/save-user", formData, {
+            const response = await axios.post("http://localhost:9092/auth/save-user", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            console.log(response.data);
+            console.log("FINAL DATA" + response.data);
             navigate('/login');
         } catch (error) {
             console.error("There was an error registering!", error);
