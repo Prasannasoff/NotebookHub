@@ -55,8 +55,9 @@ function NoteModel({ productData, isOpen, setModelOpen, userDetails }) {
       totalPrice: productData.price * quantity,
     };
     localStorage.setItem("bookingData", JSON.stringify(bookingData));
+    const encodedURL = encodeURIComponent(baseURL);
     const sessionRes = await axios.post(
-      `${baseURL}/user/create-checkout-session/${baseURL}`,
+      `${baseURL}/user/create-checkout-session/${encodedURL}`,
       bookingData,
       {
         headers: {
