@@ -47,14 +47,11 @@ export default function ShopPage() {
   const token = localStorage.getItem("token");
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
-        "http://localhost:9092/user/get-all-notebooks",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`${baseURL}/user/get-all-notebooks`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log(response.data);
       setNoteDookDetails(response.data);
     };

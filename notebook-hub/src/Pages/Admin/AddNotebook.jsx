@@ -35,15 +35,11 @@ function AddNotebook() {
       formData.append("note_name", noteName);
       formData.append("note-image", image);
       const token = localStorage.getItem("token"); // Get the token from localStorage
-      const response = await axios.post(
-        "http://localhost:9092/admin/add-note",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.post(`${baseURL}/admin/add-note`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log(response.data);
     } catch (error) {
       console.log(error);

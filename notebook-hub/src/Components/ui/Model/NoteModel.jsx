@@ -56,7 +56,7 @@ function NoteModel({ productData, isOpen, setModelOpen, userDetails }) {
     };
     localStorage.setItem("bookingData", JSON.stringify(bookingData));
     const sessionRes = await axios.post(
-      "http://localhost:9092/user/create-checkout-session",
+      `${baseURL}/user/create-checkout-session`,
       bookingData,
       {
         headers: {

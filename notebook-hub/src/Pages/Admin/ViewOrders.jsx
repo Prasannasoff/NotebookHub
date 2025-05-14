@@ -27,7 +27,7 @@ function ViewOrders() {
     const getOrderDetails = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:9092/admin/get-all-orders",
+          `${baseURL}/admin/get-all-orders`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -35,7 +35,7 @@ function ViewOrders() {
           }
         );
         const respons2 = await axios.get(
-          "http://localhost:9092/admin/get-all-custom-orders",
+          `${baseURL}/admin/get-all-custom-orders`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -55,7 +55,7 @@ function ViewOrders() {
   const handleOrderStatusUpdate = async (orderId, statusType) => {
     try {
       const response = await axios.put(
-        `http://localhost:9092/admin/update-status/${orderId}`,
+        `${baseURL}/admin/update-status/${orderId}`,
         { status: statusType },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -74,7 +74,7 @@ function ViewOrders() {
   const handleCustomOrderStatusUpdate = async (orderId, statusType) => {
     try {
       const response = await axios.put(
-        `http://localhost:9092/admin/update-status-custom/${orderId}`,
+        `${baseURL}/admin/update-status-custom/${orderId}`,
         { status: statusType },
         { headers: { Authorization: `Bearer ${token}` } }
       );

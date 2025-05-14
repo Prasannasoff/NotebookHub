@@ -26,15 +26,11 @@ function RegisterPage() {
     formData.append("image", image);
 
     try {
-      const response = await axios.post(
-        "http://localhost:9092/auth/save-user",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post(`${baseURL}/auth/save-user`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       console.log("FINAL DATA" + response.data);
       navigate("/login");
     } catch (error) {

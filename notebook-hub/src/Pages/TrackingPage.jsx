@@ -37,12 +37,12 @@ export default function TrackingPage() {
       if (!userDetails) return;
       try {
         const response = await axios.get(
-          `http://localhost:9092/user/get-order/${userDetails.user_id}`,
+          `${baseURL}/user/get-order/${userDetails.user_id}`,
 
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const response2 = await axios.get(
-          `http://localhost:9092/user/get-custom-order/${userDetails.user_id}`,
+          `${baseURL}/user/get-custom-order/${userDetails.user_id}`,
 
           { headers: { Authorization: `Bearer ${token}` } }
         );

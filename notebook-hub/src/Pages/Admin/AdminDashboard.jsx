@@ -22,14 +22,11 @@ export default function AdminDashboard() {
   useEffect(() => {
     const getDetails = async () => {
       const token = localStorage.getItem("token");
-      const response = await axios.get(
-        "http://localhost:9092/admin/get-analytics",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`${baseURL}/admin/get-analytics`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log(response.data);
       setAnalytics(response.data);
     };

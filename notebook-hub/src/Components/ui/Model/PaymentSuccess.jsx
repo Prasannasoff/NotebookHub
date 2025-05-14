@@ -13,7 +13,7 @@ const PaymentSuccess = () => {
         const bookingData = JSON.parse(localStorage.getItem("bookingData"));
 
         const response = await axios.post(
-          "http://localhost:9092/user/book-note",
+          `${baseURL}/user/book-note`,
           bookingData,
           {
             headers: {
