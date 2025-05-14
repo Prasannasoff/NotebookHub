@@ -55,10 +55,14 @@ function NoteModel({ productData, isOpen, setModelOpen, userDetails }) {
       totalPrice: productData.price * quantity,
     };
     localStorage.setItem("bookingData", JSON.stringify(bookingData));
-    const encodedURL = encodeURIComponent(baseURL);
+
     const sessionRes = await axios.post(
-      `${baseURL}/user/create-checkout-session/${encodedURL}`,
-      bookingData,
+      `${baseURL}/user/create-checkout-session`,
+      {
+        bookingData,
+        success_url: `${window.location.origin}/payment-success`,
+        cancel_url: `${window.location.origin}/payment-cancel`,
+      },
       {
         headers: {
           Authorization: `Bearer ${token}`,
