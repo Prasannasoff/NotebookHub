@@ -40,10 +40,16 @@ const Home = () => {
                   students, professionals, and creatives.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <button className="px-8 py-3 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 transition-colors shadow-md">
+                  <button
+                    className="px-8 py-3 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 transition-colors shadow-md"
+                    onClick={() => navigate("/shop")}
+                  >
                     Shop Now
                   </button>
-                  <button className="px-8 py-3 bg-white text-yellow-700 border border-yellow-600 rounded-md hover:bg-yellow-100 transition-colors">
+                  <button
+                    className="px-8 py-3 bg-white text-yellow-700 border border-yellow-600 rounded-md hover:bg-yellow-100 transition-colors"
+                    onClick={() => navigate("/custom")}
+                  >
                     Custom Order
                   </button>
                 </div>
