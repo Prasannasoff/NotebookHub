@@ -13,7 +13,7 @@ import {
 import { Button } from "../button";
 import image from "../../../assets/notebook.png";
 import { Input } from "../input";
-
+import { baseURL } from "../../../api";
 import axios from "axios";
 
 function NoteModel({ productData, isOpen, setModelOpen, userDetails }) {

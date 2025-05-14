@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 import { Button } from "../../Components/ui/button";
 import { useUser } from "../../Context/UserContext"; // wherever your context is
+import { baseURL } from "../../api";
 function AddNotebook() {
   const { userDetails } = useUser();
   console.log(userDetails.admin);

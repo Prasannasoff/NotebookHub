@@ -4,6 +4,7 @@ import axios from "axios";
 import { UserCircle } from "lucide-react";
 import { jwtDecode } from "jwt-decode";
 import { useUser } from "../Context/UserContext.jsx";
+import { baseURL } from "../api.js";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -13,7 +14,7 @@ function LoginPage() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(`http://localhost:9092/auth/login`, {
+      const response = await axios.post(`${baseURL}/auth/login`, {
         email,
         password,
       });

@@ -24,6 +24,8 @@ function LayoutWrapper() {
   const location = useLocation();
   const hideNavbarRoutes = ["/login", "/register"];
   const hideNavbar = hideNavbarRoutes.includes(location.pathname);
+  // src/main.jsx or src/App.jsx
+  localStorage.setItem("backendMode", "0"); // Use render
 
   return (
     <>

@@ -13,7 +13,7 @@ import {
   DollarSign,
 } from "lucide-react";
 import axios from "axios";
-
+import { baseURL } from "../../api";
 function ViewOrders() {
   const token = localStorage.getItem("token");
   const [orderDetails, setOrderDetails] = useState([]);

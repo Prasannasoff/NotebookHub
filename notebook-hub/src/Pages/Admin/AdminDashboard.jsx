@@ -16,6 +16,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { baseURL } from "../../api";
 export default function AdminDashboard() {
   const [analytics, setAnalytics] = useState("");
   useEffect(() => {

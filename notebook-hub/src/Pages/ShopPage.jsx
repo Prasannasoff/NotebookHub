@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../Components/ui/card";
+import { baseURL } from "../api";
 import axios from "axios";
 import { Heart, Share2, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
