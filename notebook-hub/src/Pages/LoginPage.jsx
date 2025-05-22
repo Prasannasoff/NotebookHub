@@ -10,10 +10,12 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [backendMode, setBackendMode] = useState("1"); // default to 1
+
   const { setUserDetails } = useUser();
   const toggleBackendMode = () => {
-    const currentMode = localStorage.getItem("backendMode") || "1";
-    const newMode = currentMode === "1" ? "0" : "1";
+    const newMode = backendMode === "1" ? "0" : "1";
+    setBackendMode(newMode);
     localStorage.setItem("backendMode", newMode);
     console.log(`Backend mode set to: ${newMode}`);
   };
