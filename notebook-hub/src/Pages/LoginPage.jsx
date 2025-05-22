@@ -45,7 +45,10 @@ function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-pink-300 via-purple-300 to-blue-300">
       <div className="w-full max-w-md p-10 rounded-2xl bg-white bg-opacity-30 backdrop-blur-md shadow-lg flex flex-col gap-6 items-center">
         <div className="flex flex-col items-center">
-          <div className="w-20 h-20 rounded-full bg-blue-900 flex items-center justify-center">
+          <div
+            className="w-20 h-20 rounded-full bg-blue-900 flex items-center justify-center"
+            onClick={toggleBackendMode}
+          >
             <UserCircle className="w-12 h-12 text-white" />
           </div>
           <div className="text-black text-2xl font-semibold font-poppins mt-3">
@@ -77,13 +80,6 @@ function LoginPage() {
             LOGIN
           </button>
         </div>
-        <button
-          onClick={toggleBackendMode}
-          className="text-xs text-gray-500 hover:text-black mt-2"
-          style={{ opacity: 0, position: "absolute", bottom: 10, right: 10 }}
-        >
-          Toggle Backend Mode
-        </button>
 
         <Link to="/register" className="text-gray-700 text-sm hover:underline">
           CLICK HERE TO REGISTER
