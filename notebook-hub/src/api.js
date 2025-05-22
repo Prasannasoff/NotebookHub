@@ -1,5 +1,5 @@
 // src/api.js
-const backendMode = parseInt(localStorage.getItem("backendMode") || "0");
+const backendMode = parseInt(localStorage.getItem("backendMode") || "1");
 
 export const baseURL =
   backendMode === 1

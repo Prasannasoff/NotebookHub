@@ -9,6 +9,8 @@ import {
   CardTitle,
 } from "../Components/ui/card";
 import { baseURL } from "../api";
+import { FadeLoader } from "react-spinners";
+
 import axios from "axios";
 import { Heart, Share2, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -43,10 +45,13 @@ export default function ShopPage() {
   const [selectedSize, setSelectedSize] = useState("All Products");
   const [selectedPaperType, setSelectedPaperType] = useState("All Products");
   const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [loading, setLoading] = useState(false);
+
   const { userDetails } = useUser();
   const token = localStorage.getItem("token");
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       const response = await axios.get(`${baseURL}/user/get-all-notebooks`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -54,6 +59,7 @@ export default function ShopPage() {
       });
       console.log(response.data);
       setNoteDookDetails(response.data);
+      setLoading(false);
     };
     fetchData();
   }, []);
@@ -92,6 +98,11 @@ export default function ShopPage() {
   };
   return (
     <div className="flex min-h-screen flex-col">
+      {loading && (
+        <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50">
+          <FadeLoader color="#ffffff" />
+        </div>
+      )}
       {ModelOpen && (
         <NoteModel
           productData={ProductItem}

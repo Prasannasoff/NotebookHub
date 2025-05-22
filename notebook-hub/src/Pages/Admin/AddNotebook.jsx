@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Button } from "../../Components/ui/button";
 import { useUser } from "../../Context/UserContext"; // wherever your context is
 import { baseURL } from "../../api";
+import { FadeLoader } from "react-spinners";
+
 function AddNotebook() {
   const { userDetails } = useUser();
   console.log(userDetails.admin);
@@ -17,12 +19,14 @@ function AddNotebook() {
   const [showPreview, setShowPreview] = useState();
   const [image, setImage] = useState(null);
   const [noteName, setNoteName] = useState();
+  const [loading, setLoading] = useState(false);
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
       const formData = new FormData();
       formData.append("paperType", paperType);
@@ -44,9 +48,15 @@ function AddNotebook() {
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+      {loading && (
+        <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50">
+          <FadeLoader color="#ffffff" />
+        </div>
+      )}
       <div className="mx-auto max-w-4xl">
         <h1 className="mb-6 text-2xl font-bold text-gray-800 md:text-3xl">
           Add Notebooks

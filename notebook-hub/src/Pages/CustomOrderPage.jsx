@@ -12,6 +12,8 @@ import {
 } from "../Components/ui/card";
 import { baseURL } from "../api.js";
 import { useUser } from "../Context/UserContext";
+import { FadeLoader } from "react-spinners";
+
 const paperTypes = [
   {
     id: "standard",
@@ -145,6 +147,8 @@ export default function CustomOrderPage() {
   const [street, setStreetName] = useState(null);
   const [city, setCityName] = useState(null);
   const [zipcode, setZipCode] = useState();
+  const [loading, setLoading] = useState(false);
+
   const { userDetails } = useUser();
   const totalPrice =
     (paperTypes.find((p) => p.id === paperType)?.price || 0) +
@@ -177,6 +181,7 @@ export default function CustomOrderPage() {
     const token = localStorage.getItem("token");
 
     try {
+      setLoading(true);
       const response = await axios.post(
         `${baseURL}/user/save-custom-order`,
         formData,
@@ -188,14 +193,21 @@ export default function CustomOrderPage() {
         }
       );
       console.log(response.data);
+      setLoading(false);
       alert("Order submitted successfully!");
     } catch (error) {
       console.error(error);
+      setLoading(false);
       alert("Failed to submit order.");
     }
   };
   return (
     <div className="flex min-h-screen flex-col">
+      {loading && (
+        <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50">
+          <FadeLoader color="#ffffff" />
+        </div>
+      )}
       <div className="container px-4 py-8 md:px-6 md:py-12">
         <div className="flex flex-col items-start gap-4 md:flex-row md:justify-between md:gap-8">
           <div>

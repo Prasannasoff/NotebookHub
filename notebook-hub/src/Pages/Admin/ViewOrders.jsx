@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import axios from "axios";
 import { baseURL } from "../../api";
+import { FadeLoader } from "react-spinners";
+
 function ViewOrders() {
   const token = localStorage.getItem("token");
   const [orderDetails, setOrderDetails] = useState([]);
@@ -22,10 +24,13 @@ function ViewOrders() {
   const [searchTerm, setSearchTerm] = useState("");
   const [customOrder, setCustomOrder] = useState([]);
   const [customSearchTerm, setCustomSearchTerm] = useState("");
+  const [loading,setLoading]=useState(false);
+
 
   useEffect(() => {
     const getOrderDetails = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(
           `${baseURL}/admin/get-all-orders`,
           {
@@ -46,14 +51,17 @@ function ViewOrders() {
         console.log(respons2.data);
         setOrderDetails(response.data);
         setCustomOrder(respons2.data);
+        setLoading(false);
       } catch (err) {
         console.error("Error fetching orders", err);
+        setLoading(false);
       }
     };
     getOrderDetails();
   }, []);
   const handleOrderStatusUpdate = async (orderId, statusType) => {
     try {
+      setLoading(true);
       const response = await axios.put(
         `${baseURL}/admin/update-status/${orderId}`,
         { status: statusType },
@@ -67,12 +75,15 @@ function ViewOrders() {
             : order
         )
       );
+      setLoading(false);
     } catch (err) {
       console.error(`Error updating order status: ${statusType}`, err);
+      setLoading(false);
     }
   };
   const handleCustomOrderStatusUpdate = async (orderId, statusType) => {
     try {
+      setLoading(true);
       const response = await axios.put(
         `${baseURL}/admin/update-status-custom/${orderId}`,
         { status: statusType },
@@ -86,8 +97,10 @@ function ViewOrders() {
             : order
         )
       );
+      setLoading(false)
     } catch (err) {
       console.error(`Error updating order status: ${statusType}`, err);
+      setLoading(false);
     }
   };
   const toggleOrderExpansion = (orderId) => {
@@ -113,6 +126,11 @@ function ViewOrders() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-6 lg:p-8">
+      {loading && (
+        <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50">
+          <FadeLoader color="#ffffff" />
+        </div>
+      )}
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-800 flex items-center">

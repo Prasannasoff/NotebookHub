@@ -17,10 +17,15 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { baseURL } from "../../api";
+import { FadeLoader } from "react-spinners";
+
 export default function AdminDashboard() {
   const [analytics, setAnalytics] = useState("");
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const getDetails = async () => {
+      setLoading(true);
       const token = localStorage.getItem("token");
       const response = await axios.get(`${baseURL}/admin/get-analytics`, {
         headers: {
@@ -29,6 +34,7 @@ export default function AdminDashboard() {
       });
       console.log(response.data);
       setAnalytics(response.data);
+      setLoading(false);
     };
     getDetails();
   }, []);
@@ -44,6 +50,11 @@ export default function AdminDashboard() {
   const COLORS = ["#3b82f6", "#8b5cf6", "#10b981", "#facc15", "#ef4444"];
   return (
     <div className="min-h-screen bg-gray-50 ">
+      {loading && (
+        <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50">
+          <FadeLoader color="#ffffff" />
+        </div>
+      )}
       <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:block xl:blocl sm:block flex flex-col items-center">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           <div className="rounded-lg bg-white p-5 shadow">

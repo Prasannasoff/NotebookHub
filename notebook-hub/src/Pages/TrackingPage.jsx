@@ -11,6 +11,7 @@ import {
 import { baseURL } from "../api";
 import { useUser } from "../Context/UserContext";
 import axios from "axios";
+import { FadeLoader } from "react-spinners";
 
 export default function TrackingPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -21,6 +22,7 @@ export default function TrackingPage() {
   const { userDetails } = useUser();
   const [showMore, setShowMore] = useState(false);
   const [expandedItems, setExpandedItems] = useState({});
+  const [loading,setLoading]=useState(false);
 
   const toggleItemDetails = (index) => {
     console.log(selectedOrder);
@@ -31,8 +33,8 @@ export default function TrackingPage() {
   };
 
   useEffect(() => {
+    setLoading(true);
     const token = localStorage.getItem("token");
-
     const getOrderDetails = async () => {
       if (!userDetails) return;
       try {
@@ -151,8 +153,10 @@ export default function TrackingPage() {
         console.log(orderData);
         setSelectedOrder(orderData[0]);
         setCustomSelectedOrder(customOrderData[0]);
+        setLoading(false);
       } catch (err) {
         console.error("Error fetching orders", err);
+        setLoading(false);
       }
     };
 
@@ -211,6 +215,11 @@ export default function TrackingPage() {
 
   return (
     <div className="flex min-h-screen flex-col">
+      {loading && (
+        <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50">
+          <FadeLoader color="#ffffff" />
+        </div>
+      )}
       <div className="container px-4 py-8 md:px-6 md:py-12 flex flex-col gap-5">
         <h1 className="text-3xl font-bold mb-8">Order Tracking</h1>
 

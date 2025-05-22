@@ -15,10 +15,13 @@ import image from "../../../assets/notebook.png";
 import { Input } from "../input";
 import { baseURL } from "../../../api";
 import axios from "axios";
+import { FadeLoader } from "react-spinners";
 
 function NoteModel({ productData, isOpen, setModelOpen, userDetails }) {
   const [decrementQuantity, setDecrementQuantity] = useState();
   const [incrementQuantity, setIncrementQuantity] = useState();
+  const [loading, setLoading] = useState(false);
+
   const [quantity, setQuantity] = useState(25); // Start with minimum order
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
@@ -55,7 +58,7 @@ function NoteModel({ productData, isOpen, setModelOpen, userDetails }) {
       totalPrice: productData.price * quantity,
     };
     localStorage.setItem("bookingData", JSON.stringify(bookingData));
-
+    setLoading(true);
     const sessionRes = await axios.post(
       `${baseURL}/user/create-checkout-session`,
       {
@@ -69,10 +72,16 @@ function NoteModel({ productData, isOpen, setModelOpen, userDetails }) {
         },
       }
     );
+    setLoading(false);
     window.location.href = sessionRes.data.url;
   };
   return (
     <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50 p-4 overflow-y-auto">
+      {loading && (
+        <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50">
+          <FadeLoader color="#ffffff" />
+        </div>
+      )}
       <div className="relative bg-white w-full max-w-[500px] shadow-lg border border-gray-200 rounded-2xl p-6 max-h-[90vh] overflow-y-auto">
         {/* Close button */}
         <button
