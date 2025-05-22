@@ -11,7 +11,12 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { setUserDetails } = useUser();
-
+  const toggleBackendMode = () => {
+    const currentMode = localStorage.getItem("backendMode") || "1";
+    const newMode = currentMode === "1" ? "0" : "1";
+    localStorage.setItem("backendMode", newMode);
+    console.log(`Backend mode set to: ${newMode}`);
+  };
   const handleLogin = async () => {
     try {
       const response = await axios.post(`${baseURL}/auth/login`, {
@@ -72,6 +77,13 @@ function LoginPage() {
             LOGIN
           </button>
         </div>
+        <button
+          onClick={toggleBackendMode}
+          className="text-xs text-gray-500 hover:text-black mt-2"
+          style={{ opacity: 0, position: "absolute", bottom: 10, right: 10 }}
+        >
+          Toggle Backend Mode
+        </button>
 
         <Link to="/register" className="text-gray-700 text-sm hover:underline">
           CLICK HERE TO REGISTER
