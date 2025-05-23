@@ -42,7 +42,6 @@ export default function AdminDashboard() {
   const pieData = [
     { name: "Stock Left", value: analytics.totalStock || 0 },
     { name: "Bookings", value: analytics.totalBookings || 0 },
-    { name: "Revenue", value: analytics.totalRevenue || 0 },
     { name: "Notebooks Sold", value: analytics.notebookSold || 0 },
     { name: "Pending Orders", value: analytics.pendingOrders || 0 },
   ];
@@ -138,11 +137,11 @@ export default function AdminDashboard() {
         </div>
 
         {/* Sales Analytics */}
-        <div className="mt-10 rounded-lg flex flex-col bg-white p-10 py-20 md:py-0 shadow">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        <div className="mt-10 rounded-lg bg-white p-10 shadow w-full">
+          <h2 className="text-xl font-semibold text-gray-800 mb-6 text-center">
             Sales Analytics Overview
           </h2>
-          <div className="h-78 w-full">
+          <div className="w-full h-[400px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -151,9 +150,11 @@ export default function AdminDashboard() {
                   nameKey="name"
                   cx="50%"
                   cy="50%"
-                  outerRadius={100}
-                  fill="#8884d8"
-                  label
+                  outerRadius={120}
+                  labelLine={false}
+                  label={({ name, percent }) =>
+                    `${name} (${(percent * 100).toFixed(0)}%)`
+                  }
                 >
                   {pieData.map((entry, index) => (
                     <Cell
@@ -163,7 +164,11 @@ export default function AdminDashboard() {
                   ))}
                 </Pie>
                 <Tooltip />
-                <Legend verticalAlign="bottom" height={36} />
+                <Legend
+                  layout="horizontal"
+                  verticalAlign="bottom"
+                  align="center"
+                />
               </PieChart>
             </ResponsiveContainer>
           </div>
