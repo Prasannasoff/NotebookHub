@@ -15,6 +15,11 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
 } from "recharts";
 import { baseURL } from "../../api";
 import { FadeLoader } from "react-spinners";
@@ -45,6 +50,26 @@ export default function AdminDashboard() {
     { name: "Notebooks Sold", value: analytics.notebookSold || 0 },
     { name: "Pending Orders", value: analytics.pendingOrders || 0 },
   ];
+  const generateMockRevenueData = (totalRevenue) => {
+    const monthly = Array.from({ length: 6 }, (_, i) => ({
+      month: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"][i],
+      revenue: Math.round((totalRevenue / 6) * (0.9 + Math.random() * 0.2)), // ±10%
+    }));
+
+    const weekly = Array.from({ length: 24 }, (_, i) => ({
+      week: `Week ${i + 1}`,
+      revenue: Math.round((totalRevenue / 24) * (0.9 + Math.random() * 0.2)), // ±10%
+    }));
+
+    return { monthly, weekly };
+  };
+
+  const { monthly: monthlyRevenue, weekly: weeklyRevenue } =
+    generateMockRevenueData(analytics.totalRevenue || 0);
+
+  const [revenueView, setRevenueView] = useState("monthly");
+  const revenueData =
+    revenueView === "monthly" ? monthlyRevenue : weeklyRevenue;
 
   const COLORS = ["#3b82f6", "#8b5cf6", "#10b981", "#facc15", "#ef4444"];
   return (
@@ -170,6 +195,47 @@ export default function AdminDashboard() {
                   align="center"
                 />
               </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+        {/* Revenue Bar Chart */}
+        <div className="mt-10 rounded-lg bg-white p-10 shadow w-full">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-semibold text-gray-800">
+              Revenue Overview
+            </h2>
+            <div className="space-x-2">
+              <button
+                onClick={() => setRevenueView("monthly")}
+                className={`px-4 py-2 rounded-md text-sm font-medium ${
+                  revenueView === "monthly"
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-200 text-gray-700"
+                }`}
+              >
+                Monthly
+              </button>
+              <button
+                onClick={() => setRevenueView("weekly")}
+                className={`px-4 py-2 rounded-md text-sm font-medium ${
+                  revenueView === "weekly"
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-200 text-gray-700"
+                }`}
+              >
+                Weekly
+              </button>
+            </div>
+          </div>
+          <div className="w-full h-[400px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={revenueData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey={revenueView === "monthly" ? "month" : "week"} />
+                <YAxis />
+                <Tooltip />
+                <Bar dataKey="revenue" fill="#3b82f6" radius={[6, 6, 0, 0]} />
+              </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
