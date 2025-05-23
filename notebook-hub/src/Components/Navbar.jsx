@@ -51,7 +51,7 @@ export function Navbar() {
             className="flex items-center gap-2 text-2xl font-bold text-yellow-500"
           >
             <Book className="h-6 w-6" />
-            <span>Barani Paper Boards</span>
+            <span>Barane Paper Boards</span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-8 ml-6">
